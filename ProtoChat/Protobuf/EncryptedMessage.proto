@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProtoChat.Proto";
+
+
+message KeyRequest {
+  string clientId = 1;
+}
+
+message KeyResponse {
+  bytes key = 1; 
+}
+
+message EncryptedMessage {
+  bytes cipherPayload = 1;
+  bytes nonce = 2;
+  bytes tag = 3;
+  string sender = 4;  // sender uuid
+  int64 timestamp = 5; 
+}
+
+service ChatService {
+  rpc Chat(stream EncryptedMessage) returns (stream EncryptedMessage);
+}

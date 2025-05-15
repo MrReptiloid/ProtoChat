@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProtoChat.Proto";
+
+service KeyExchangeService {
+  rpc KeyExchange(KeyExchangeRequest) returns (KeyExchangeResponse);
+}
+    
+message KeyExchangeRequest {
+  
+}
+
+message KeyExchangeResponse {
+  string client_id = 1;
+  bytes key = 2;
+  bytes nonce = 3;
+  bytes tag = 4;
+  optional string error = 5;
+}
+    
