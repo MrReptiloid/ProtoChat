@@ -63,6 +63,7 @@ public class ChatServiceTests : TestKit
         // Act
         await service.Chat(mockRequestStream.Object, mockResponseStream.Object, mockContext.Object);
 
+        // Assert
         service.ProcessedMessagesCount.Should().Be(1);
     }
 }

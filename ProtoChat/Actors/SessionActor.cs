@@ -1,7 +1,10 @@
+using System.Text;
 using Akka.Actor;
 using Grpc.Core;
+using ProtoChat.DataAccess;
+using ProtoChat.Domain.Abstractions;
+using ProtoChat.Domain.Commands;
 using ProtoChat.Proto;
-using Status = Grpc.Core.Status;
 
 namespace ProtoChat.Actors;
 
@@ -57,10 +60,11 @@ public class SessionActor : ReceiveActor
                 ? SessionIsInitialized.Instance 
                 : SessionIsNotInitialized.Instance);
         });
-        
-        Receive<PlainTextMessage>(msg =>
+
+        Receive<SendCommandToClient>(msg =>
         {
-            _aesActor.Tell(new AesGcmActor.EncryptRequest(msg.Message));
+            byte[] payload = Encoding.UTF8.GetBytes(msg.Command.ToString());
+            _aesActor.Tell(new AesGcmActor.EncryptRequest(payload));
         });
 
         Receive<AesGcmActor.EncryptResponse>(encrypted =>
@@ -68,7 +72,7 @@ public class SessionActor : ReceiveActor
             EncryptedMessage response = new()
             {
                 Sender = _clientId,
-                CipherPayload = Google.Protobuf.ByteString.CopyFrom(encrypted.CipherText),
+                CipherPayload = Google.Protobuf.ByteString.CopyFrom(encrypted.CipherPayload),
                 Nonce = Google.Protobuf.ByteString.CopyFrom(encrypted.Nonce),
                 Tag = Google.Protobuf.ByteString.CopyFrom(encrypted.Tag),
             };
@@ -79,15 +83,31 @@ public class SessionActor : ReceiveActor
         Receive<IncomingEncryptedMessage>(msg =>
         {
             _aesActor.Tell(new AesGcmActor.DecryptRequest(
-                msg.CipherText,
+                msg.CipherPayload,
                 msg.Nonce,
                 msg.Tag,
                 _rootKey ?? throw new InvalidOperationException("Key not generated yet")));
         });
 
-        Receive<AesGcmActor.DecryptResponse>(decrypted =>
+        Receive<AesGcmActor.DecryptResponse>(async decrypted =>
         {
-            Console.WriteLine(decrypted.Message);
+            IAppCommand? command = CommandParser.Parse(decrypted.Payload);
+
+            if (command == null)
+            {
+                return;
+            }
+
+            CommandContext commandContext = new()
+            {
+                SenderId = _clientId,
+            };
+            
+            CommandResult executionResult = await command.ExecuteAsync(commandContext);
+
+            byte[] response = Encoding.UTF8.GetBytes(executionResult.Message ?? "");
+
+            _aesActor.Tell(new AesGcmActor.EncryptRequest(response));
         });
     }
     
@@ -123,7 +143,7 @@ public class SessionActor : ReceiveActor
         public static SessionIsNotInitialized Instance { get; } = new();
         private SessionIsNotInitialized() { }
     }
-    
-    public sealed record PlainTextMessage(string Message);
-    public sealed record IncomingEncryptedMessage(string ClientId, byte[] CipherText, byte[] Nonce, byte[] Tag);
+
+    public sealed record SendCommandToClient(IAppCommand Command);
+    public sealed record IncomingEncryptedMessage(string ClientId, byte[] CipherPayload, byte[] Nonce, byte[] Tag);
 }

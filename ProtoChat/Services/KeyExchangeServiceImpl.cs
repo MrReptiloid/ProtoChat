@@ -1,7 +1,6 @@
 using Akka.Actor;
 using Google.Protobuf;
 using Grpc.Core;
-using Grpc.Core.Utils;
 using ProtoChat.Actors;
 using ProtoChat.Proto;
 

@@ -3,7 +3,6 @@ using Grpc.Core;
 using Grpc.Core.Utils;
 using ProtoChat.Actors;
 using ProtoChat.Proto;
-using Status = Grpc.Core.Status;
 
 namespace ProtoChat.Services;
 

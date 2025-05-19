@@ -4,6 +4,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoChat", "ProtoChat\Prot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoChatTests", "ProtoChatTests\ProtoChatTests.csproj", "{CB3304F3-9F8F-4348-9B4A-3F39575DC7E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoChat.Domain", "ProtoChat.Domain\ProtoChat.Domain.csproj", "{BA31C2D9-6CA5-4280-B3F3-2632919F78F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoChat.DataAccess", "ProtoChat.DataAccess\ProtoChat.DataAccess.csproj", "{F708B100-4279-45F6-9F04-D754818E680B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoChat.Client", "ProtoChat.Client\ProtoChat.Client.csproj", "{EDF286CC-38EA-4F6F-B6CC-76FCE3F87548}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +24,17 @@ Global
 		{CB3304F3-9F8F-4348-9B4A-3F39575DC7E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB3304F3-9F8F-4348-9B4A-3F39575DC7E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB3304F3-9F8F-4348-9B4A-3F39575DC7E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA31C2D9-6CA5-4280-B3F3-2632919F78F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA31C2D9-6CA5-4280-B3F3-2632919F78F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA31C2D9-6CA5-4280-B3F3-2632919F78F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA31C2D9-6CA5-4280-B3F3-2632919F78F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F708B100-4279-45F6-9F04-D754818E680B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F708B100-4279-45F6-9F04-D754818E680B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F708B100-4279-45F6-9F04-D754818E680B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F708B100-4279-45F6-9F04-D754818E680B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDF286CC-38EA-4F6F-B6CC-76FCE3F87548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDF286CC-38EA-4F6F-B6CC-76FCE3F87548}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDF286CC-38EA-4F6F-B6CC-76FCE3F87548}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDF286CC-38EA-4F6F-B6CC-76FCE3F87548}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+import "CipherPayload.proto";
+
+option csharp_namespace = "ProtoChat.Proto";
+
+service AuthService {
+  rpc RegisterUser (RegisterUserRequest) returns (RegisterUserResponse);
+  rpc LoginUser (LoginUserRequest) returns (LoginUserResponse);
+}

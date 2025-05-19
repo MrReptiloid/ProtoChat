@@ -17,30 +17,29 @@ public class AesGcmActor : ReceiveActor
         using AesGcm aesGcm = new(key);
         
         byte[] nonce = RandomNumberGenerator.GetBytes(12);
-        byte[] cipherText = new byte[msg.Message.Length];
+        byte[] cipherPayload = new byte[msg.Payload.Length];
         byte[] tag = new byte[16];
         
-        aesGcm.Encrypt(nonce, System.Text.Encoding.UTF8.GetBytes(msg.Message), cipherText, tag);
+        aesGcm.Encrypt(nonce, msg.Payload, cipherPayload, tag);
         
-        Sender.Tell(new EncryptResponse(cipherText, nonce, tag, key));
+        Sender.Tell(new EncryptResponse(cipherPayload, nonce, tag, key));
     }
     
     private void HandleDecrypt(DecryptRequest msg)
     {
         using AesGcm aesGcm = new(msg.Key);
         
-        byte[] plainText = new byte[msg.CipherText.Length];
-        aesGcm.Decrypt(msg.Nonce, msg.CipherText, msg.Tag, plainText);
+        byte[] payload = new byte[msg.CipherPayload.Length];
+        aesGcm.Decrypt(msg.Nonce, msg.CipherPayload, msg.Tag, payload);
         
-        string message = System.Text.Encoding.UTF8.GetString(plainText);
-        Sender.Tell(new DecryptResponse(message));
+        Sender.Tell(new DecryptResponse(payload));
     }
 
     public static Props Props() =>
         Akka.Actor.Props.Create(() => new AesGcmActor());
         
-    public record EncryptRequest(string Message);
-    public record EncryptResponse(byte[] CipherText, byte[] Nonce, byte[] Tag, byte[] Key);
-    public record DecryptRequest(byte[] CipherText, byte[] Nonce, byte[] Tag, byte[] Key);
-    public record DecryptResponse(string Message);
+    public record EncryptRequest(byte[] Payload);
+    public record EncryptResponse(byte[] CipherPayload, byte[] Nonce, byte[] Tag, byte[] Key);
+    public record DecryptRequest(byte[] CipherPayload, byte[] Nonce, byte[] Tag, byte[] Key);
+    public record DecryptResponse(byte[] Payload);
 }

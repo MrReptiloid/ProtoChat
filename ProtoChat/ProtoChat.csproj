@@ -8,18 +8,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Protobuf Include="Protobuf\EncryptedMessage.proto" GrpcServices="Server" />
-        <Protobuf Include="Protobuf\KeyExchange.proto" GrpcServices="Server" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Akka" Version="1.5.40" />
-      <PackageReference Include="Google.Protobuf" Version="3.30.2" />
+      <PackageReference Include="Google.Protobuf" Version="3.31.0" />
       <PackageReference Include="Grpc" Version="2.46.6" />
+      <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
       <PackageReference Include="Grpc.Core" Version="2.46.6" />
       <PackageReference Include="Grpc.Tools" Version="2.72.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ProtoChat.Domain\ProtoChat.Domain.csproj" />
     </ItemGroup>
 </Project>

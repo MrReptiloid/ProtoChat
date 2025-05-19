@@ -13,18 +13,18 @@ public class AesGcmActorTests : TestKit
         var probe = CreateTestProbe();
         var aesGcmActor = Sys.ActorOf(AesGcmActor.Props());
         
-        string originalMessage = "Hello, World!";
+        byte[] originalMessage = "Hello, World!"u8.ToArray();
         
         aesGcmActor.Tell(new AesGcmActor.EncryptRequest(originalMessage), probe.Ref);
         var encryptResponse = probe.ExpectMsg<AesGcmActor.EncryptResponse>();
         
-        encryptResponse.CipherText.Should().NotBeNullOrEmpty();
+        encryptResponse.CipherPayload.Should().NotBeNullOrEmpty();
         encryptResponse.Key.Should().HaveCount(32);
         encryptResponse.Nonce.Should().HaveCount(12);
         encryptResponse.Tag.Should().HaveCount(16);
 
         aesGcmActor.Tell(new AesGcmActor.DecryptRequest(
-            encryptResponse.CipherText,
+            encryptResponse.CipherPayload,
             encryptResponse.Nonce,
             encryptResponse.Tag,
             encryptResponse.Key
@@ -32,6 +32,6 @@ public class AesGcmActorTests : TestKit
         
         var decryptResponse = probe.ExpectMsg<AesGcmActor.DecryptResponse>();
 
-        decryptResponse.Message.Should().Be(originalMessage);
+        decryptResponse.Payload.Should().BeEquivalentTo(originalMessage);
     }
 }

@@ -18,7 +18,7 @@ public class KeyExchangeServiceTests : TestKit
         var sessionManager = Sys.ActorOf(Props.Create(() => new SessionManagerActor()));
         var service = new KeyExchangeServiceImpl(sessionManager);
 
-        var request = new KeyExchangeRequest(); // Add fields if needed
+        var request = new KeyExchangeRequest();
         var context = TestServerCallContext.Create();
 
         // Act

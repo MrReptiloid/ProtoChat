@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProtoChat.Proto";
+
+message Command {
+  oneof payload {
+    RegisterUser register_user = 1;
+    LoginUser login_user = 2;
+  }
+}
+
+message RegisterUser {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginUser {
+  string username = 1;
+  string password = 2;
+}
+
+message SendPersonalMessage { 
+  string recipient_id = 1;
+  string message = 2;
+}
