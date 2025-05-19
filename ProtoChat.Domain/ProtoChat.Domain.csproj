@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Akka" Version="1.5.40" />
+      <PackageReference Include="Google.Protobuf" Version="3.31.0" />
+      <PackageReference Include="Grpc" Version="2.46.6" />
+      <PackageReference Include="Grpc.Core" Version="2.46.6" />
+      <PackageReference Include="Grpc.Tools" Version="2.72.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Models\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ProtoChat.DataAccess\ProtoChat.DataAccess.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Protobuf Include="Protobuf\Commands.proto" GrpcService="None"/>
+      <Protobuf Include="Protobuf\EncryptedMessage.proto" GrpcService="None"/>
+      <Protobuf Include="Protobuf\KeyExchange.proto" GrpcService="None"/>
+    </ItemGroup>
+
+</Project>
